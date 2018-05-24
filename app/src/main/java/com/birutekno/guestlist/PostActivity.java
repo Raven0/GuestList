@@ -225,6 +225,7 @@ public class PostActivity extends AppCompatActivity {
         InputStream in = null;
         try {
             final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
+//            final int IMAGE_MAX_SIZE = 10000; // 1.2MP
 //            final int IMAGE_MAX_SIZE = 1000000;
             in = getContentResolver().openInputStream(uri);
 

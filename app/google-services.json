@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "361147602447",
+    "firebase_url": "https://guestlist-birutekno.firebaseio.com",
+    "project_id": "guestlist-birutekno",
+    "storage_bucket": "guestlist-birutekno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361147602447:android:e2df058c43a187d6",
+        "android_client_info": {
+          "package_name": "com.birutekno.guestlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361147602447-44hjn50v5onhi3upqbljtpegubsngc9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.birutekno.guestlist",
+            "certificate_hash": "355e76b96471a407770d0f128d2b3177068ff402"
+          }
+        },
+        {
+          "client_id": "361147602447-040acv7br52n7r68aigj62padikdbn4m.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "361147602447-040acv7br52n7r68aigj62padikdbn4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByakc2jp8tDcyeKMHEBePhbWFwy6UVBQQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361147602447-040acv7br52n7r68aigj62padikdbn4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

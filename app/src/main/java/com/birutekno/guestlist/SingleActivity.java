@@ -46,7 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-public class PostActivity extends AppCompatActivity {
+public class SingleActivity extends AppCompatActivity {
 
     private TextView tipe;
     private ImageView img;
@@ -69,7 +69,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_single);
 
         storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance().getReference().child("guest");
@@ -92,16 +92,16 @@ public class PostActivity extends AppCompatActivity {
                 int PERMISSION_ALL = 1;
                 String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_SMS, Manifest.permission.CAMERA};
 
-//                if(!hasPermissions(PostActivity.this, PERMISSIONS)){
-//                    ActivityCompat.requestPermissions(PostActivity.this, PERMISSIONS, PERMISSION_ALL);
+//                if(!hasPermissions(SingleActivity.this, PERMISSIONS)){
+//                    ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
 //                }
 
-                if (ContextCompat.checkSelfPermission(PostActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-//                    ActivityCompat.requestPermissions(PostActivity.this, new String[] {Manifest.permission.CAMERA}, CAM_REQ_CODE);
-//                    ActivityCompat.requestPermissions(PostActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-//                    ActivityCompat.requestPermissions(PostActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-                    ActivityCompat.requestPermissions(PostActivity.this, PERMISSIONS, PERMISSION_ALL);
-                    Toast.makeText(PostActivity.this, "Permission Granted, Click the image again", Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(SingleActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.CAMERA}, CAM_REQ_CODE);
+//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                    ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
+                    Toast.makeText(SingleActivity.this, "Permission Granted, Click the image again", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
@@ -164,9 +164,9 @@ public class PostActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        startActivity(new Intent(PostActivity.this, MainActivity.class));
+                                        startActivity(new Intent(SingleActivity.this, MainActivity.class));
                                     }else {
-                                        Toast.makeText(PostActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SingleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -188,24 +188,7 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAM_REQ_CODE && resultCode == RESULT_OK) {
-            if(imageToUploadUri != null){
-                Uri selectedImage = imageToUploadUri;
-                getContentResolver().notifyChange(selectedImage, null);
-                reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
-                if(reducedSizeBitmap != null){
-//                    btnImg.setImageBitmap(reducedSizeBitmap);
-                    CropImage.activity(imageToUploadUri)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setAspectRatio(1,1)
-                            .start(this);
-
-//                    img.setImageURI(imageToUploadUri);
-                }else{
-                    Toast.makeText(this,"Error while capturing Image",Toast.LENGTH_LONG).show();
-                }
-            }else{
-                Toast.makeText(this,"Error while capturing Image",Toast.LENGTH_LONG).show();
-            }
+            cameraCapture();
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -216,6 +199,27 @@ public class PostActivity extends AppCompatActivity {
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
+        }
+    }
+
+    private void cameraCapture(){
+        if(imageToUploadUri != null){
+            Uri selectedImage = imageToUploadUri;
+            getContentResolver().notifyChange(selectedImage, null);
+            reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+            if(reducedSizeBitmap != null){
+//                    btnImg.setImageBitmap(reducedSizeBitmap);
+                CropImage.activity(imageToUploadUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1,1)
+                        .start(this);
+
+//                    img.setImageURI(imageToUploadUri);
+            }else{
+                Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
         }
     }
 

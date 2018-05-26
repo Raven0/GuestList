@@ -6,18 +6,151 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:gravity="center">
 
-    <Button
-        android:id="@+id/singleBtn"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SINGLE"/>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/coupleBtn"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/brush_tab"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome To"
+                android:textColor="#ffff"
+                android:textSize="42dp"
+                android:fontFamily="@font/helenafont"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:text="Jimmy"
+                        android:layout_toLeftOf="@id/weddingIcon"
+                        android:textColor="#ffff"
+                        android:textSize="25dp"
+                        android:fontFamily="@font/helenafont"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/weddingIcon"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/wedding" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/profileTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Wulan"
+                        android:layout_toRightOf="@id/weddingIcon"
+                        android:textColor="#ffff"
+                        android:textSize="25dp"
+                        android:fontFamily="@font/helenafont"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wedding"
+                android:textColor="#ffff"
+                android:textSize="28dp"
+                android:fontFamily="@font/helenafont"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="COUPLE"/>
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/singleBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Single"
+            android:textSize="20dp"
+            android:textColor="#4F4F4F"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_button_yellow"
+            android:fontFamily="@font/psansregular"
+            android:textAllCaps="false"
+            android:drawableStart="@drawable/drawable_single"
+            android:paddingStart="20dp"/>
+
+        <Button
+            android:id="@+id/coupleBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Couple"
+            android:textSize="20dp"
+            android:textColor="#FFFF"
+            android:background="@drawable/bg_button_pink"
+            android:fontFamily="@font/psansregular"
+            android:textAllCaps="false"
+            android:drawableStart="@drawable/drawable_couple"
+            android:paddingStart="20dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="20dp"
+        android:text="Thank You"
+        android:gravity="bottom"
+        android:textAlignment="center"
+        android:textColor="#ffff"
+        android:textSize="30dp"
+        android:fontFamily="@font/helenafont"/>
+
 
 </LinearLayout>

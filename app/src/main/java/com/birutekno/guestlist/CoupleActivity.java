@@ -20,7 +20,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,10 +48,10 @@ import java.util.Date;
 public class CoupleActivity extends AppCompatActivity {
 
     private TextView tipe;
-    private ImageView img;
-    private ImageView img1;
-    private EditText etNama;
-    private EditText etNama1;
+    private ImageView img, imgCancel;
+    private ImageView img1, imgCancel1;
+    private TextView etNama;
+    private TextView etNama1;
     private Button btnSubmit;
 
     private static final int CAM_REQ_CODE = 5;
@@ -68,6 +67,8 @@ public class CoupleActivity extends AppCompatActivity {
     private Uri[] resultUri = new Uri[2];
 
     private String caption;
+    private String nama;
+    private String nama1;
     private String img1Stat = null, img2Stat=null;
 
     @Override
@@ -79,8 +80,10 @@ public class CoupleActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference().child("guest");
         img = (ImageView) findViewById(R.id.imgA);
         img1 = (ImageView) findViewById(R.id.imgB);
-        etNama = (EditText) findViewById(R.id.nama);
-        etNama1 = (EditText) findViewById(R.id.namaB);
+        imgCancel = (ImageView) findViewById(R.id.imgBtnCancel);
+        imgCancel1 = (ImageView) findViewById(R.id.imgBtnCancel1);
+        etNama = (TextView) findViewById(R.id.nama);
+        etNama1 = (TextView) findViewById(R.id.namaB);
         btnSubmit = (Button) findViewById(R.id.uploadBtn);
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -89,7 +92,11 @@ public class CoupleActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        caption = bundle.getString("type");
+        caption = bundle.getString("status");
+        nama = bundle.getString("nama");
+        nama1 = bundle.getString("nama1");
+        etNama.setText("Mr." + nama);
+        etNama1.setText("Mrs." + nama1);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +148,20 @@ public class CoupleActivity extends AppCompatActivity {
             }
         });
 
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img.setImageDrawable(getResources().getDrawable(R.drawable.border_mr));
+            }
+        });
+
+        imgCancel1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.setImageDrawable(getResources().getDrawable(R.drawable.border_mrs));
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,9 +183,9 @@ public class CoupleActivity extends AppCompatActivity {
 
     private void startPosting() {
         progressDialog.setMessage("Uploading");
-        final String name_val = etNama.getText().toString().trim();
-        final String name1_val = etNama1.getText().toString().trim();
-        if(!TextUtils.isEmpty(name_val) && reducedSizeBitmap != null) {
+//        final String name_val = etNama.getText().toString().trim();
+//        final String name1_val = etNama1.getText().toString().trim();
+        if(!TextUtils.isEmpty(nama) && !TextUtils.isEmpty(nama1) && reducedSizeBitmap != null) {
             progressDialog.show();
 
             final DatabaseReference newPost = database.push();
@@ -191,8 +212,8 @@ public class CoupleActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    newPost.child("nama").setValue(name_val);
-                                    newPost.child("nama1").setValue(name1_val);
+                                    newPost.child("nama").setValue(nama);
+                                    newPost.child("nama1").setValue(nama1);
                                     newPost.child("status").setValue(caption);
                                     newPost.child("waktu").setValue(new Date().getHours() + "." +  new Date().getMinutes());
                                     newPost.child("foto").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {

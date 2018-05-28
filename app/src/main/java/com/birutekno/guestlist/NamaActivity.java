@@ -1,13 +1,62 @@
 package com.birutekno.guestlist;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class NamaActivity extends AppCompatActivity {
+
+    private TextView gender;
+    private ImageView img;
+    private EditText mr, mrs;
+    private Button nextButton;
+    private String caption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nama);
+
+        gender = (TextView) findViewById(R.id.gender);
+        img = (ImageView) findViewById(R.id.imgView);
+        mr = (EditText) findViewById(R.id.Mr);
+        mrs = (EditText) findViewById(R.id.Mrs);
+        nextButton = (Button) findViewById(R.id.nextButton);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        caption = bundle.getString("type");
+        if(caption.equals("Couple")){
+            gender.setText("Mr & Mrs");
+            mrs.setVisibility(View.VISIBLE);
+        }
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(caption.equals("Single")){
+                    Intent intent = new Intent(NamaActivity.this, SingleActivity.class);
+                    String nama = mr.getText().toString().trim();
+                    intent.putExtra("nama", nama);
+                    intent.putExtra("status", caption);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(NamaActivity.this, CoupleActivity.class);
+                    String nama = mr.getText().toString().trim();
+                    String nama1 = mrs.getText().toString().trim();
+                    intent.putExtra("nama", nama);
+                    intent.putExtra("nama1", nama1);
+                    intent.putExtra("status", caption);
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 }

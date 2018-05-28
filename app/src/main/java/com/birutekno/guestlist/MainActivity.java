@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         mSingleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SingleActivity.class);
+                Intent intent = new Intent(MainActivity.this, NamaActivity.class);
                 String tipe = "Single";
                 intent.putExtra("type", tipe);
                 startActivity(intent);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mCoupleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CoupleActivity.class);
+                Intent intent = new Intent(MainActivity.this, NamaActivity.class);
                 String tipe = "Couple";
                 intent.putExtra("type", tipe);
                 startActivity(intent);

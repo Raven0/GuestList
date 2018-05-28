@@ -20,7 +20,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,8 +48,8 @@ import java.util.Date;
 public class SingleActivity extends AppCompatActivity {
 
     private TextView tipe;
-    private ImageView img;
-    private EditText etNama;
+    private ImageView img, imgCancel;
+    private TextView etNama;
     private Button btnSubmit;
 
     private static final int GALLERY_REQ = 1;
@@ -65,6 +64,7 @@ public class SingleActivity extends AppCompatActivity {
     private Uri resultUri;
 
     private String caption;
+    private String nama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,8 @@ public class SingleActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance().getReference().child("guest");
         img = (ImageView) findViewById(R.id.imgView);
-        etNama = (EditText) findViewById(R.id.nama);
+        imgCancel = (ImageView) findViewById(R.id.imgBtnCancel);
+        etNama = (TextView) findViewById(R.id.nama);
         btnSubmit = (Button) findViewById(R.id.uploadBtn);
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -83,7 +84,9 @@ public class SingleActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        caption = bundle.getString("type");
+        caption = bundle.getString("status");
+        nama = bundle.getString("nama");
+        etNama.setText(nama);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +121,13 @@ public class SingleActivity extends AppCompatActivity {
             }
         });
 
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img.setImageDrawable(getResources().getDrawable(R.drawable.border_single_mr_mrs));
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,8 +149,8 @@ public class SingleActivity extends AppCompatActivity {
 
     private void startPosting() {
         progressDialog.setMessage("Uploading");
-        final String name_val = etNama.getText().toString().trim();
-        if(!TextUtils.isEmpty(name_val) && reducedSizeBitmap != null) {
+//        final String name_val = etNama.getText().toString().trim();
+        if(!TextUtils.isEmpty(nama) && reducedSizeBitmap != null) {
             progressDialog.show();
 
             StorageReference filepath = storage.child("Image_Post").child(imageToUploadUri.getLastPathSegment());
@@ -156,7 +166,7 @@ public class SingleActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            newPost.child("nama").setValue(name_val);
+                            newPost.child("nama").setValue(nama);
                             newPost.child("status").setValue(caption);
                             newPost.child("waktu").setValue(new Date().getHours() + "." +  new Date().getMinutes());
                             newPost.child("foto").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {

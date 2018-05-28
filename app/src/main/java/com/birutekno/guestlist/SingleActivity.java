@@ -101,7 +101,6 @@ public class SingleActivity extends AppCompatActivity {
 //                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
 //                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
                     ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
-                    Toast.makeText(SingleActivity.this, "Permission Granted, Click the image again", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
@@ -216,10 +215,10 @@ public class SingleActivity extends AppCompatActivity {
 
 //                    img.setImageURI(imageToUploadUri);
             }else{
-                Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
             }
         }else{
-            Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
         }
     }
 

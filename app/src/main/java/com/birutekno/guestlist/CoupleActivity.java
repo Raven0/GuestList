@@ -55,7 +55,6 @@ public class CoupleActivity extends AppCompatActivity {
     private EditText etNama1;
     private Button btnSubmit;
 
-    private static final int GALLERY_REQ = 1;
     private static final int CAM_REQ_CODE = 5;
     private StorageReference storage;
     private DatabaseReference database;
@@ -168,58 +167,83 @@ public class CoupleActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(name_val) && reducedSizeBitmap != null) {
             progressDialog.show();
 
-            String length = String.valueOf(resultUri.length);
+            final DatabaseReference newPost = database.push();
 
+//            String[] nama = new String[2];
+//            nama[finalI] = newPost.getKey().toString();
+//            String namaFinal = nama[0];
+//            Toast.makeText(CoupleActivity.this,  "NO." + finalI  + " KEY: " + nama[finalI], Toast.LENGTH_SHORT).show();
+
+            final DatabaseReference uppPost = database.child(newPost.getKey());
+//            final DatabaseReference cekPost = database.child("AHAHAHAHA");
 
             for(int i = 0; i < resultUri.length; i++){
-                Toast.makeText(this, resultUri[0].toString(), Toast.LENGTH_LONG).show();
-                Toast.makeText(this, resultUri[1].toString(), Toast.LENGTH_LONG).show();
-                Toast.makeText(this, length, Toast.LENGTH_LONG).show();
-                StorageReference filepath = storage.child("Image_Post").child(resultUri[i].getLastPathSegment());
-
                 final StorageReference ref = storage.child("Image_Post").child(resultUri[i].getLastPathSegment());
+                final int finalI = i;
                 ref.putFile(resultUri[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        downloadUrl = taskSnapshot.getDownloadUrl();
+                        final Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                        if(finalI == 0){
+
+                            database.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    newPost.child("nama").setValue(name_val);
+                                    newPost.child("nama1").setValue(name1_val);
+                                    newPost.child("status").setValue(caption);
+                                    newPost.child("waktu").setValue(new Date().getHours() + "." +  new Date().getMinutes());
+                                    newPost.child("foto").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+//                                                startActivity(new Intent(CoupleActivity.this, MainActivity.class));
+                                            }else {
+                                                Toast.makeText(CoupleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }else if(finalI ==1){
+
+                            database.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    uppPost.child("foto1").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                startActivity(new Intent(CoupleActivity.this, MainActivity.class));
+                                            }else {
+                                                Toast.makeText(CoupleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+
+                        progressDialog.dismiss();
                     }
                 });
-
-                downloadUrlArr[i] = downloadUrl;
             }
-
-            final DatabaseReference newPost = database.push();
-
-            database.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    Toast.makeText(CoupleActivity.this, String.valueOf(downloadUrlArr[0]), Toast.LENGTH_LONG).show();
-
-                    newPost.child("nama").setValue(name_val);
-                    newPost.child("nama1").setValue(name1_val);
-                    newPost.child("status").setValue(caption);
-                    newPost.child("foto1").setValue(downloadUrlArr[1]);
-                    newPost.child("waktu").setValue(new Date().getHours() + "." +  new Date().getMinutes());
-                    newPost.child("foto").setValue(downloadUrlArr[0]).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                startActivity(new Intent(CoupleActivity.this, MainActivity.class));
-                            }else {
-                                Toast.makeText(CoupleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            progressDialog.dismiss();
         }
     }
 
@@ -240,10 +264,10 @@ public class CoupleActivity extends AppCompatActivity {
 
 //                    img.setImageURI(imageToUploadUri);
                 }else{
-                    Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(this,"Gambar buram, coba lagi",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
             }
         }
 

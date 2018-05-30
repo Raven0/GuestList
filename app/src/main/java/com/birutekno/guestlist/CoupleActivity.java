@@ -152,6 +152,7 @@ public class CoupleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 img.setImageDrawable(getResources().getDrawable(R.drawable.border_mr));
+                img1Stat = null;
             }
         });
 
@@ -159,6 +160,7 @@ public class CoupleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 img1.setImageDrawable(getResources().getDrawable(R.drawable.border_mrs));
+                img2Stat = null;
             }
         });
 
@@ -185,7 +187,7 @@ public class CoupleActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading");
 //        final String name_val = etNama.getText().toString().trim();
 //        final String name1_val = etNama1.getText().toString().trim();
-        if(!TextUtils.isEmpty(nama) && !TextUtils.isEmpty(nama1) && reducedSizeBitmap != null) {
+        if(!TextUtils.isEmpty(nama) && !TextUtils.isEmpty(nama1) && img1Stat != null && img2Stat != null) {
             progressDialog.show();
 
             final DatabaseReference newPost = database.push();

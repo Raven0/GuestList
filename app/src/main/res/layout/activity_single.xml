@@ -117,11 +117,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <!--<ImageView-->
+                <!--android:id="@+id/imgView"-->
+                <!--android:layout_width="140dp"-->
+                <!--android:layout_height="140dp"-->
+                <!--android:src="@drawable/border_single_mr_mrs" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgView"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:src="@drawable/border_single_mr_mrs" />
+                android:src="@drawable/border_single_mr_mrs"/>
 
             <ImageView
                 android:id="@+id/imgBtnCancel"

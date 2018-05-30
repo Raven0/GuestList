@@ -34,6 +34,7 @@ public class NamaActivity extends AppCompatActivity {
         if(caption.equals("Couple")){
             gender.setText("Mr & Mrs");
             mrs.setVisibility(View.VISIBLE);
+            mr.setHint("Mr.");
         }
 
         nextButton.setOnClickListener(new View.OnClickListener() {

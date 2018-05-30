@@ -45,10 +45,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SingleActivity extends AppCompatActivity {
 
     private TextView tipe;
-    private ImageView img, imgCancel;
+    private ImageView imgCancel;
+    CircleImageView img;
     private TextView etNama;
     private Button btnSubmit;
 
@@ -66,6 +69,8 @@ public class SingleActivity extends AppCompatActivity {
     private String caption;
     private String nama;
 
+    private String img1Stat = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +78,7 @@ public class SingleActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance().getReference().child("guest");
-        img = (ImageView) findViewById(R.id.imgView);
+        img = (CircleImageView) findViewById(R.id.imgView);
         imgCancel = (ImageView) findViewById(R.id.imgBtnCancel);
         etNama = (TextView) findViewById(R.id.nama);
         btnSubmit = (Button) findViewById(R.id.uploadBtn);
@@ -95,14 +100,7 @@ public class SingleActivity extends AppCompatActivity {
                 int PERMISSION_ALL = 1;
                 String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_SMS, Manifest.permission.CAMERA};
 
-//                if(!hasPermissions(SingleActivity.this, PERMISSIONS)){
-//                    ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
-//                }
-
                 if (ContextCompat.checkSelfPermission(SingleActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.CAMERA}, CAM_REQ_CODE);
-//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-//                    ActivityCompat.requestPermissions(SingleActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
                     ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
                 }
 
@@ -150,7 +148,7 @@ public class SingleActivity extends AppCompatActivity {
     private void startPosting() {
         progressDialog.setMessage("Uploading");
 //        final String name_val = etNama.getText().toString().trim();
-        if(!TextUtils.isEmpty(nama) && reducedSizeBitmap != null) {
+        if(!TextUtils.isEmpty(nama) && img1Stat != null) {
             progressDialog.show();
 
             StorageReference filepath = storage.child("Image_Post").child(imageToUploadUri.getLastPathSegment());
@@ -205,6 +203,7 @@ public class SingleActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 resultUri = result.getUri();
                 img.setImageURI(resultUri);
+                img1Stat = "ada";
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

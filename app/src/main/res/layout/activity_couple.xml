@@ -121,11 +121,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <!--<ImageView-->
+                    <!--android:id="@+id/imgA"-->
+                    <!--android:layout_width="140dp"-->
+                    <!--android:layout_height="140dp"-->
+                    <!--android:src="@drawable/border_mr" />-->
+
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgA"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:src="@drawable/border_mr" />
+                    android:src="@drawable/border_mr"/>
 
                 <ImageView
                     android:id="@+id/imgBtnCancel"
@@ -160,7 +166,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <!--<ImageView-->
+                    <!--android:id="@+id/imgB"-->
+                    <!--android:layout_width="140dp"-->
+                    <!--android:layout_height="140dp"-->
+                    <!--android:src="@drawable/border_mrs" />-->
+
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgB"
                     android:layout_width="140dp"
                     android:layout_height="140dp"

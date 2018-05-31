@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "361147602447",
+    "firebase_url": "https://guestlist-birutekno.firebaseio.com",
+    "project_id": "guestlist-birutekno",
+    "storage_bucket": "guestlist-birutekno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361147602447:android:e2df058c43a187d6",
+        "android_client_info": {
+          "package_name": "com.birutekno.guestlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361147602447-040acv7br52n7r68aigj62padikdbn4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByakc2jp8tDcyeKMHEBePhbWFwy6UVBQQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

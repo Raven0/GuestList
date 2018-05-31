@@ -128,6 +128,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Mr/Mrs"
+                    android:textSize="15dp"
+                    android:textColor="#000"
+                    android:fontFamily="@font/psansregular"
                     android:textAlignment="center"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"/>
@@ -158,9 +161,13 @@
                 <Button
                     android:id="@+id/nextButton"
                     android:text="Next"
+                    android:textSize="25dp"
+                    android:textColor="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_btn"/>
+                    android:background="@drawable/bg_btn"
+                    android:fontFamily="@font/psansregular"
+                    android:textAllCaps="false"/>
 
             </LinearLayout>
 

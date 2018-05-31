@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NamaActivity extends AppCompatActivity {
 
@@ -42,19 +43,29 @@ public class NamaActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(caption.equals("Single")){
-                    Intent intent = new Intent(NamaActivity.this, SingleActivity.class);
-                    String nama = mr.getText().toString().trim();
-                    intent.putExtra("nama", nama);
-                    intent.putExtra("status", caption);
-                    startActivity(intent);
+                    if (mr.getText().toString().trim().length() == 0){
+                        Toast.makeText(NamaActivity.this, "Pastikan nama sudah terisi", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Intent intent = new Intent(NamaActivity.this, SingleActivity.class);
+                        String nama = mr.getText().toString().trim();
+                        intent.putExtra("nama", nama);
+                        intent.putExtra("status", caption);
+                        startActivity(intent);
+                    }
                 }else {
-                    Intent intent = new Intent(NamaActivity.this, CoupleActivity.class);
-                    String nama = mr.getText().toString().trim();
-                    String nama1 = mrs.getText().toString().trim();
-                    intent.putExtra("nama", nama);
-                    intent.putExtra("nama1", nama1);
-                    intent.putExtra("status", caption);
-                    startActivity(intent);
+                    if (mr.getText().toString().trim().length() == 0){
+                        Toast.makeText(NamaActivity.this, "Pastikan nama tamu laki laki sudah terisi", Toast.LENGTH_SHORT).show();
+                    } else if(mrs.getText().toString().trim().length() == 0){
+                        Toast.makeText(NamaActivity.this, "Pastikan nama tamu perempuan sudah terisi", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(NamaActivity.this, CoupleActivity.class);
+                        String nama = mr.getText().toString().trim();
+                        String nama1 = mrs.getText().toString().trim();
+                        intent.putExtra("nama", nama);
+                        intent.putExtra("nama1", nama1);
+                        intent.putExtra("status", caption);
+                        startActivity(intent);
+                    }
                 }
             }
         });

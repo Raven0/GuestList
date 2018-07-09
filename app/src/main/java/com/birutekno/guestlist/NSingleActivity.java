@@ -1,10 +1,7 @@
 package com.birutekno.guestlist;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,8 +10,6 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,8 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +40,7 @@ import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SingleActivity extends AppCompatActivity {
+public class NSingleActivity extends AppCompatActivity {
 
     private TextView tipe;
     private ImageView imgCancel;
@@ -78,7 +71,6 @@ public class SingleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single);
 
         storage = FirebaseStorage.getInstance().getReference();
-        database = FirebaseDatabase.getInstance().getReference().child("guest");
         img = (CircleImageView) findViewById(R.id.imgView);
         imgCancel = (ImageView) findViewById(R.id.imgBtnCancel);
         etNama = (TextView) findViewById(R.id.nama);
@@ -93,30 +85,20 @@ public class SingleActivity extends AppCompatActivity {
         caption = bundle.getString("status");
         sender = bundle.getString("sender");
         nama = bundle.getString("nama");
+        database = FirebaseDatabase.getInstance().getReference().child(sender);
         etNama.setText(nama);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int PERMISSION_ALL = 1;
-                String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_SMS, Manifest.permission.CAMERA};
-
-                if (ContextCompat.checkSelfPermission(SingleActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                    ActivityCompat.requestPermissions(SingleActivity.this, PERMISSIONS, PERMISSION_ALL);
-                }
-
-                else {
-                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                    StrictMode.setVmPolicy(builder.build());
-                    Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(Environment.getExternalStorageDirectory(), "IMAGE " + new Date().getTime() + ".jpg");
-                    chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    imageToUploadUri = Uri.fromFile(f);
-                    if (chooserIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(chooserIntent, CAM_REQ_CODE);
-                    }
-//                startActivityForResult(chooserIntent, CAM_REQ_CODE);
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File f = new File(Environment.getExternalStorageDirectory(), "IMAGE " + new Date().getTime() + ".jpg");
+                chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                imageToUploadUri = Uri.fromFile(f);
+                if (chooserIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(chooserIntent, CAM_REQ_CODE);
                 }
             }
         });
@@ -136,26 +118,14 @@ public class SingleActivity extends AppCompatActivity {
         });
     }
 
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     private void startPosting() {
         progressDialog.setMessage("Uploading");
-//        final String name_val = etNama.getText().toString().trim();
         if(!TextUtils.isEmpty(nama) && img1Stat != null) {
             progressDialog.show();
 
             StorageReference filepath = storage.child("Image_Post").child(imageToUploadUri.getLastPathSegment());
 
-            filepath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            filepath.putFile(imageToUploadUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     @SuppressWarnings("VisibleForTests")
@@ -174,9 +144,12 @@ public class SingleActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        startActivity(new Intent(SingleActivity.this, MainActivity.class));
+                                        Intent intent = new Intent(NSingleActivity.this, MainActivity.class);
+                                        intent.putExtra("sender", sender);
+                                        startActivity(intent);
+                                        return;
                                     }else {
-                                        Toast.makeText(SingleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(NSingleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -201,16 +174,16 @@ public class SingleActivity extends AppCompatActivity {
             cameraCapture();
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                resultUri = result.getUri();
-                img.setImageURI(resultUri);
-                img1Stat = "ada";
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                resultUri = result.getUri();
+//                img.setImageURI(resultUri);
+//                img1Stat = "ada";
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                Exception error = result.getError();
+//            }
+//        }
     }
 
     private void cameraCapture(){
@@ -219,13 +192,8 @@ public class SingleActivity extends AppCompatActivity {
             getContentResolver().notifyChange(selectedImage, null);
             reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
             if(reducedSizeBitmap != null){
-//                    btnImg.setImageBitmap(reducedSizeBitmap);
-                CropImage.activity(imageToUploadUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(1,1)
-                        .start(this);
-
-//                    img.setImageURI(imageToUploadUri);
+                    img.setImageURI(imageToUploadUri);
+                    img1Stat = "ada";
             }else{
                 Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
             }

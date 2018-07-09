@@ -16,7 +16,7 @@ public class NamaActivity extends AppCompatActivity {
     private ImageView img;
     private EditText mr, mrs;
     private Button nextButton;
-    private String caption;
+    private String caption, sender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class NamaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         caption = bundle.getString("type");
+        sender  = bundle.getString("sender");
         if(caption.equals("Couple")){
             gender.setText("Mr & Mrs");
             mrs.setVisibility(View.VISIBLE);
@@ -46,10 +47,11 @@ public class NamaActivity extends AppCompatActivity {
                     if (mr.getText().toString().trim().length() == 0){
                         Toast.makeText(NamaActivity.this, "Pastikan nama sudah terisi", Toast.LENGTH_SHORT).show();
                     } else{
-                        Intent intent = new Intent(NamaActivity.this, SingleActivity.class);
+                        Intent intent = new Intent(NamaActivity.this, NSingleActivity.class);
                         String nama = mr.getText().toString().trim();
                         intent.putExtra("nama", nama);
                         intent.putExtra("status", caption);
+                        intent.putExtra("sender", sender);
                         startActivity(intent);
                     }
                 }else {
@@ -58,12 +60,13 @@ public class NamaActivity extends AppCompatActivity {
                     } else if(mrs.getText().toString().trim().length() == 0){
                         Toast.makeText(NamaActivity.this, "Pastikan nama tamu perempuan sudah terisi", Toast.LENGTH_SHORT).show();
                     } else {
-                        Intent intent = new Intent(NamaActivity.this, CoupleActivity.class);
+                        Intent intent = new Intent(NamaActivity.this, NCoupleActivity.class);
                         String nama = mr.getText().toString().trim();
                         String nama1 = mrs.getText().toString().trim();
                         intent.putExtra("nama", nama);
                         intent.putExtra("nama1", nama1);
                         intent.putExtra("status", caption);
+                        intent.putExtra("sender", sender);
                         startActivity(intent);
                     }
                 }

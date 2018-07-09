@@ -36,20 +36,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="textEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Jimmy"
+                        android:gravity="center_vertical"
                         android:layout_toLeftOf="@id/weddingIcon"
                         android:textColor="#ffff"
                         android:textSize="25dp"
@@ -58,9 +59,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -74,19 +74,19 @@
 
                 <LinearLayout
                     android:id="@+id/profileTab"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Wulan"
                         android:layout_toRightOf="@id/weddingIcon"
                         android:textColor="#ffff"
                         android:textSize="25dp"
+                        android:gravity="center_vertical"
                         android:fontFamily="@font/helenafont"/>
 
                 </LinearLayout>
@@ -112,6 +112,25 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <!--<TextView-->
+            <!--android:id="@+id/textId"-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="#000"-->
+            <!--android:textSize="20dp"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:text="Kode :"/>-->
+
+        <!--<Button-->
+            <!--android:id="@+id/singleBtn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/coupleBtn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
         <Button
             android:id="@+id/singleBtn"
             android:layout_width="150dp"
@@ -119,12 +138,13 @@
             android:text="Single"
             android:textSize="20dp"
             android:textColor="#4F4F4F"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/bg_button_yellow"
             android:fontFamily="@font/psansregular"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/drawable_single"
-            android:paddingStart="20dp"/>
+            android:textAllCaps="false"/>
+
+        <!--android:drawableStart="@drawable/drawable_single"-->
+        <!--android:paddingStart="20dp"-->
 
         <Button
             android:id="@+id/coupleBtn"
@@ -135,9 +155,10 @@
             android:textColor="#FFFF"
             android:background="@drawable/bg_button_pink"
             android:fontFamily="@font/psansregular"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/drawable_couple"
-            android:paddingStart="20dp"/>
+            android:textAllCaps="false" />
+
+        <!--android:drawableStart="@drawable/drawable_couple"-->
+        <!--android:paddingStart="20dp"-->
 
     </LinearLayout>
 

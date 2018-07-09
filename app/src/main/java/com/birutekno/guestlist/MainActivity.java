@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mSingleBtn;
     private Button mCoupleBtn;
+    private String sender;
+//    private TextView textid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         mSingleBtn = (Button) findViewById(R.id.singleBtn);
         mCoupleBtn = (Button) findViewById(R.id.coupleBtn);
+//        textid = (TextView) findViewById(R.id.textId);
 
         checkPermission();
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        sender  = bundle.getString("sender");
+//        textid.setText("Kode : " + sender);
 
         mSingleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, NamaActivity.class);
                 String tipe = "Single";
                 intent.putExtra("type", tipe);
+                intent.putExtra("sender", sender);
                 startActivity(intent);
             }
         });
@@ -41,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, NamaActivity.class);
                 String tipe = "Couple";
                 intent.putExtra("type", tipe);
+                intent.putExtra("sender", sender);
                 startActivity(intent);
             }
         });

@@ -67,6 +67,7 @@ public class CoupleActivity extends AppCompatActivity {
     private Uri[] resultUri = new Uri[2];
 
     private String caption;
+    private String sender;
     private String nama;
     private String nama1;
     private String img1Stat = null, img2Stat=null;
@@ -93,6 +94,7 @@ public class CoupleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         caption = bundle.getString("status");
+        sender = bundle.getString("sender");
         nama = bundle.getString("nama");
         nama1 = bundle.getString("nama1");
         etNama.setText("Mr." + nama);
@@ -217,6 +219,7 @@ public class CoupleActivity extends AppCompatActivity {
                                     newPost.child("nama").setValue(nama);
                                     newPost.child("nama1").setValue(nama1);
                                     newPost.child("status").setValue(caption);
+                                    newPost.child("sender").setValue(sender);
                                     newPost.child("waktu").setValue(new Date().getHours() + "." +  new Date().getMinutes());
                                     newPost.child("foto").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override

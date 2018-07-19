@@ -136,13 +136,14 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Single"
-            android:textSize="20dp"
-            android:textColor="#4F4F4F"
+            android:textSize="20sp"
+            android:textColor="#FFFF"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_button_yellow"
-            android:fontFamily="@font/psansregular"
+            android:background="#FECC00"
             android:textAllCaps="false"/>
 
+        <!--android:background="@drawable/bg_button_yellow"-->
+        <!--app:fontFamily="@font/psansregular"-->
         <!--android:drawableStart="@drawable/drawable_single"-->
         <!--android:paddingStart="20dp"-->
 
@@ -151,12 +152,24 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Couple"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#FFFF"
-            android:background="@drawable/bg_button_pink"
-            android:fontFamily="@font/psansregular"
+            android:layout_marginBottom="20dp"
+            android:background="#EA556F"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/famsBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Family"
+            android:textSize="20sp"
+            android:textColor="#FFFF"
+            android:background="#108fba"
+            android:textAllCaps="false" />
+
+        <!--android:background="@drawable/bg_button_pink"-->
+        <!--app:fontFamily="@font/psansregular"-->
         <!--android:drawableStart="@drawable/drawable_couple"-->
         <!--android:paddingStart="20dp"-->
 

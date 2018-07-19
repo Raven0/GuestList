@@ -154,7 +154,11 @@ public class NCoupleActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startPosting();
+                try {
+                    startPosting();
+                } catch (Exception ex){
+                    Toast.makeText(NCoupleActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -191,7 +195,7 @@ public class NCoupleActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-//                                                startActivity(new Intent(CoupleActivity.this, MainActivity.class));
+//                                                finalI = 1;
                                             }else {
                                                 Toast.makeText(NCoupleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
                                             }
@@ -218,7 +222,7 @@ public class NCoupleActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(NCoupleActivity.this, MainActivity.class);
                                                 intent.putExtra("sender", sender);
                                                 startActivity(intent);
-                                                return;
+                                                finish();
                                             }else {
                                                 Toast.makeText(NCoupleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
                                             }
@@ -246,25 +250,29 @@ public class NCoupleActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAM_REQ_CODE && resultCode == RESULT_OK) {
-            if(imageToUploadUri != null){
-                Uri selectedImage = imageToUploadUri;
-                getContentResolver().notifyChange(selectedImage, null);
-                reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
-                if(reducedSizeBitmap != null){
-                    if(img1Stat == null){
-                        resultUri[0] = imageToUploadUri;
-                        img.setImageURI(resultUri[0]);
-                        img1Stat = "ada";
-                    }else if(img2Stat == null){
-                        resultUri[1] = imageToUploadUri;
-                        img1.setImageURI(resultUri[1]);
-                        img2Stat = "ada";
+            try {
+                if(imageToUploadUri != null){
+                    Uri selectedImage = imageToUploadUri;
+                    getContentResolver().notifyChange(selectedImage, null);
+                    reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
+                    if(reducedSizeBitmap != null){
+                        if(img1Stat == null){
+                            resultUri[0] = imageToUploadUri;
+                            img.setImageURI(resultUri[0]);
+                            img1Stat = "ada";
+                        }else if(img2Stat == null){
+                            resultUri[1] = imageToUploadUri;
+                            img1.setImageURI(resultUri[1]);
+                            img2Stat = "ada";
+                        }
+                    }else{
+                        Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
                     }
                 }else{
                     Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
                 }
-            }else{
-                Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
+            } catch (Exception ex){
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

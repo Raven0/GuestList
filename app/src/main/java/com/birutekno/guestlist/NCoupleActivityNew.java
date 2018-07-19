@@ -1,3 +1,4 @@
+
 package com.birutekno.guestlist;
 
 import android.app.ProgressDialog;
@@ -38,17 +39,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+public class NCoupleActivityNew extends AppCompatActivity {
 
-public class NSingleActivity extends AppCompatActivity {
-
-    private TextView tipe;
-    private ImageView imgCancel;
-    CircleImageView img;
+    private ImageView img, imgCancel;
     private TextView etNama;
+    private TextView etNama1;
     private Button btnSubmit;
 
-    private static final int GALLERY_REQ = 1;
     private static final int CAM_REQ_CODE = 5;
     private StorageReference storage;
     private DatabaseReference database;
@@ -57,24 +54,24 @@ public class NSingleActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private Uri imageToUploadUri;
-    private Uri resultUri;
 
     private String caption;
     private String sender;
     private String nama;
-
+    private String nama1;
     private String img1Stat = null;
     String waktu = new Date().getHours() + ":" +  new Date().getMinutes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single);
+        setContentView(R.layout.activity_couple_new);
 
         storage = FirebaseStorage.getInstance().getReference();
-        img = (CircleImageView) findViewById(R.id.imgView);
+        img = (ImageView) findViewById(R.id.imgA);
         imgCancel = (ImageView) findViewById(R.id.imgBtnCancel);
         etNama = (TextView) findViewById(R.id.nama);
+        etNama1 = (TextView) findViewById(R.id.namaB);
         btnSubmit = (Button) findViewById(R.id.uploadBtn);
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -86,8 +83,10 @@ public class NSingleActivity extends AppCompatActivity {
         caption = bundle.getString("status");
         sender = bundle.getString("sender");
         nama = bundle.getString("nama");
+        nama1 = bundle.getString("nama1");
         database = FirebaseDatabase.getInstance().getReference().child(sender);
-        etNama.setText(nama);
+        etNama.setText("Mr." + nama);
+        etNama1.setText("Mrs." + nama1);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +106,8 @@ public class NSingleActivity extends AppCompatActivity {
         imgCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                img.setImageDrawable(getResources().getDrawable(R.drawable.border_single_mr_mrs));
+                img.setImageDrawable(getResources().getDrawable(R.drawable.border_mr));
+                img1Stat = null;
             }
         });
 
@@ -116,8 +116,8 @@ public class NSingleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     startPosting();
-                }catch (Exception ex){
-                    Toast.makeText(NSingleActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception ex){
+                    Toast.makeText(NCoupleActivityNew.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -142,6 +142,7 @@ public class NSingleActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             newPost.child("nama").setValue(nama);
+                            newPost.child("nama1").setValue(nama1);
                             newPost.child("status").setValue(caption);
                             newPost.child("sender").setValue(sender);
                             newPost.child("waktu").setValue(waktu);
@@ -149,12 +150,12 @@ public class NSingleActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Intent intent = new Intent(NSingleActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(NCoupleActivityNew.this, MainActivity.class);
                                         intent.putExtra("sender", sender);
                                         startActivity(intent);
                                         finish();
                                     }else {
-                                        Toast.makeText(NSingleActivity.this, "Error Posting", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(NCoupleActivityNew.this, "Error Posting", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -182,17 +183,6 @@ public class NSingleActivity extends AppCompatActivity {
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//            if (resultCode == RESULT_OK) {
-//                resultUri = result.getUri();
-//                img.setImageURI(resultUri);
-//                img1Stat = "ada";
-//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//                Exception error = result.getError();
-//            }
-//        }
     }
 
     private void cameraCapture(){
@@ -201,8 +191,8 @@ public class NSingleActivity extends AppCompatActivity {
             getContentResolver().notifyChange(selectedImage, null);
             reducedSizeBitmap = getBitmap(imageToUploadUri.getPath());
             if(reducedSizeBitmap != null){
-                    img.setImageURI(imageToUploadUri);
-                    img1Stat = "ada";
+                img.setImageURI(imageToUploadUri);
+                img1Stat = "ada";
             }else{
                 Toast.makeText(this,"Coba Lagi",Toast.LENGTH_LONG).show();
             }

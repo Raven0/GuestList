@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class NamaActivity extends AppCompatActivity {
 
-    private TextView gender;
+    private TextView gender,shortcut;
     private ImageView img;
     private EditText mr, mrs;
     private Button nextButton;
@@ -23,6 +23,7 @@ public class NamaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nama);
 
+        shortcut = (TextView) findViewById(R.id.shortcutBitmap);
         gender = (TextView) findViewById(R.id.gender);
         img = (ImageView) findViewById(R.id.imgView);
         mr = (EditText) findViewById(R.id.Mr);
@@ -33,7 +34,10 @@ public class NamaActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         caption = bundle.getString("type");
         sender  = bundle.getString("sender");
-        if(caption.equals("Couple")){
+        if(caption.equals("Family")){
+            gender.setText("Family");
+            mr.setHint("Name's");
+        } else if(caption.equals("Couple")){
             gender.setText("Mr & Mrs");
             mrs.setVisibility(View.VISIBLE);
             mr.setHint("Mr.");
@@ -54,13 +58,24 @@ public class NamaActivity extends AppCompatActivity {
                         intent.putExtra("sender", sender);
                         startActivity(intent);
                     }
+                }else if(caption.equals("Family")){
+                    if (mr.getText().toString().trim().length() == 0){
+                        Toast.makeText(NamaActivity.this, "Pastikan nama sudah terisi", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Intent intent = new Intent(NamaActivity.this, NSingleActivity.class);
+                        String nama = mr.getText().toString().trim();
+                        intent.putExtra("nama", nama);
+                        intent.putExtra("status", caption);
+                        intent.putExtra("sender", sender);
+                        startActivity(intent);
+                    }
                 }else {
                     if (mr.getText().toString().trim().length() == 0){
                         Toast.makeText(NamaActivity.this, "Pastikan nama tamu laki laki sudah terisi", Toast.LENGTH_SHORT).show();
                     } else if(mrs.getText().toString().trim().length() == 0){
                         Toast.makeText(NamaActivity.this, "Pastikan nama tamu perempuan sudah terisi", Toast.LENGTH_SHORT).show();
                     } else {
-                        Intent intent = new Intent(NamaActivity.this, NCoupleActivity.class);
+                        Intent intent = new Intent(NamaActivity.this, NCoupleActivityNew.class);
                         String nama = mr.getText().toString().trim();
                         String nama1 = mrs.getText().toString().trim();
                         intent.putExtra("nama", nama);

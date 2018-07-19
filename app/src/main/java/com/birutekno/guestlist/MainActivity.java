@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mSingleBtn;
     private Button mCoupleBtn;
+    private Button mFamsBtn;
     private String sender;
 //    private TextView textid;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSingleBtn = (Button) findViewById(R.id.singleBtn);
         mCoupleBtn = (Button) findViewById(R.id.coupleBtn);
+        mFamsBtn = (Button) findViewById(R.id.famsBtn);
 //        textid = (TextView) findViewById(R.id.textId);
 
         checkPermission();
@@ -49,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NamaActivity.class);
                 String tipe = "Couple";
+                intent.putExtra("type", tipe);
+                intent.putExtra("sender", sender);
+                startActivity(intent);
+            }
+        });
+
+        mFamsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NamaActivity.class);
+                String tipe = "Family";
                 intent.putExtra("type", tipe);
                 intent.putExtra("sender", sender);
                 startActivity(intent);
